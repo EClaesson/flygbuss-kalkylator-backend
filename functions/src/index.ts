@@ -13,7 +13,7 @@ interface Flight {
 }
 
 export const fetchFlights = functions.pubsub
-    .schedule("0 5 * * *")
+    .schedule("5 0 * * *")
     .timeZone("Europe/Stockholm")
     .onRun(async () => {
       const date = new Date();
