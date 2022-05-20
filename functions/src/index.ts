@@ -4,7 +4,7 @@ import axios from "axios";
 
 admin.initializeApp();
 
-const DAYS_AHEAD = 8;
+const DAYS_AHEAD = 9;
 
 interface Flight {
   id: string;
@@ -24,7 +24,13 @@ export const fetchFlights = functions.pubsub
         const dateStr = date.toISOString().split("T")[0];
         const res = await axios.get(
             `https://www.swedavia.se/services/publicflightsboard/v2/departures/sv/RNB/${dateStr}`
-        );
+        ).catch(() => {
+          console.log("Failed get:", i, date);
+        });
+
+        if (!res?.data) {
+          continue;
+        }
 
         data[dateStr] = {};
 
